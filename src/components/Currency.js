@@ -1,30 +1,75 @@
-
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Currency = () => {
-  const {currency, dispatch } = useContext(AppContext);
+    const { currency, dispatch } = useContext(AppContext);
 
-    const changeLocation = (val)=>{
-            dispatch({
-                type: 'CHG_CURRENCY',
-                payload: val,
-            })
-    }
-    
+    const changeCurrency = (selectedCurrency) => {
+        dispatch({
+            type: 'CHG_CURRENCY',
+            payload: selectedCurrency,
+        });
+    };
 
-  return (
-        <div className='alert alert-success'> Currency {
-      <select className='' name="currency" id="currency" value={currency} onChange={event=>changeLocation(event.target.value)}>
-        <option value="$">($ Dollar)</option>
-        <option value="£">(£ Pound)</option>
-        <option value="€">(€ Euro)</option>
-        <option value="₹">(₹ Ruppie)</option>
-        
-        
-      </select>	
-      }	
-    </div>
+    const getCurrencyLabel = (currencyCode) => {
+        switch (currencyCode) {
+            case '$':
+                return 'Currency ($ Dollar)';
+            case '£':
+                return 'Currency (£ Pound)';
+            case '€':
+                return 'Currency (€ Euro)';
+            case '₹':
+                return 'Currency (₹ Ruppie)';
+            default:
+                return 'Currency';
+        }
+    };
+
+    return (
+        <DropdownButton
+    id="currency-dropdown"
+    title={getCurrencyLabel(currency)}
+    variant="success"
+    style={{
+        background: '#39ff14',
+        color: 'black',
+        fontWeight: 'bold',
+        border: '1px solid #39ff14',
+        width: '50%',
+    }}
+>
+            <Dropdown.Item
+                onClick={() => changeCurrency('$')}
+                active={currency === '$'}
+                style={{ backgroundColor: currency === '$' ? 'white' : '#39ff14', color: 'black' }} // Fondo y texto para el menú desplegable
+            >
+                $ Dollar
+            </Dropdown.Item>
+            <Dropdown.Item
+                onClick={() => changeCurrency('£')}
+                active={currency === '£'}
+                style={{ backgroundColor: currency === '£' ? 'white' : '#39ff14', color: 'black' }} // Fondo y texto para el menú desplegable
+            >
+                £ Pound
+            </Dropdown.Item>
+            <Dropdown.Item
+                onClick={() => changeCurrency('€')}
+                active={currency === '€'}
+                style={{ backgroundColor: currency === '€' ? 'white' : '#39ff14', color: 'black' }} // Fondo y texto para el menú desplegable
+            >
+                € Euro
+            </Dropdown.Item>
+            <Dropdown.Item
+                onClick={() => changeCurrency('₹')}
+                active={currency === '₹'}
+                style={{ backgroundColor: currency === '₹' ? 'white' : '#39ff14', color: 'black' }} // Fondo y texto para el menú desplegable
+            >
+                ₹ Ruppie
+            </Dropdown.Item>
+        </DropdownButton>
     );
 };
 
